@@ -1,73 +1,90 @@
 # LTspice AI Reference
 
-Official LTspice documentation optimized for AI assistants (Claude Code, GitHub Copilot, etc.).
+LTspice documentation for AI assistants and users.
 
-## Overview
+## About LTspice
 
-This reference collection provides comprehensive LTspice documentation in a format that AI coding assistants can efficiently parse and use to help you design and simulate circuits. The files are installed with LTspice and automatically updated with new releases.
+LTspice is a general-purpose SPICE simulator with built-in schematic capture and waveform viewer, developed by Analog Devices. Freely distributed, it includes a large collection of component models for simulating analog circuits with high confidence.
+
+- Website: http://www.analog.com/ltspice
+- Forum: https://ez.analog.com/design-tools-and-calculators/ltspice/
 
 ## Setup
 
-Initialize AI reference files in your project directory:
+From your project directory, run one of the following:
 
-```bash
-cd <your_project_directory>
+```bat
+:: Per-user install
+"%LOCALAPPDATA%\Programs\ADI\LTspice\LTspice.exe" -init_ai_ref
+
+:: System-wide install
 "C:\Program Files\ADI\LTspice\LTspice.exe" -init_ai_ref
 ```
 
-This creates symlinks from your project to the reference files located in `%LOCALAPPDATA%\LTspice\`, making them available to AI assistants while keeping them centrally updated.
+This creates symlinks in the current directory pointing to the reference files in `%LOCALAPPDATA%\LTspice\reference`. AI assistants will automatically use these files for LTspice guidance.
 
-**Important**: Run this command from within your LTspice project directory where you want AI assistance.
+Symlinks always point to the latest version and are updated automatically with LTspice. Do not edit the referenced files directly.
 
-## Reference Files
+---
 
-| File | Content |
-|------|---------|
-| [CLAUDE.md](CLAUDE.md) | Central index and critical conventions |
-| [LTSPICE-QUICKSTART.md](LTSPICE-QUICKSTART.md) | Installation, interface, CLI usage |
-| [SPICE-SYNTAX-REFERENCE.md](SPICE-SYNTAX-REFERENCE.md) | Netlist structure, encoding, multipliers |
-| [CIRCUIT-ELEMENTS-REFERENCE.md](CIRCUIT-ELEMENTS-REFERENCE.md) | Component syntax (R, L, C, V, I, D, Q, M, etc.) |
-| [SIMULATION-COMMANDS-REFERENCE.md](SIMULATION-COMMANDS-REFERENCE.md) | Dot commands (.tran, .ac, .dc, .meas, .step, .options) |
-| [TROUBLESHOOTING-GUIDE.md](TROUBLESHOOTING-GUIDE.md) | Convergence failures, debugging, simulator options |
-| [SCHEMATIC-REFERENCE.md](SCHEMATIC-REFERENCE.md) | .asc file format, schematic editing |
-| [WAVEFORM-VIEWER-GUIDE.md](WAVEFORM-VIEWER-GUIDE.md) | Viewing results, probing, analysis |
-| [DEVICE-MODELS-GUIDE.md](DEVICE-MODELS-GUIDE.md) | MOSFET/inductor/opamp models, integration |
-| [MEASURE-DATABASE-REFERENCE.md](MEASURE-DATABASE-REFERENCE.md) | .MEAS SQLite database schema |
-| [FAQ-AND-TIPS.md](FAQ-AND-TIPS.md) | Tips, efficiency, advanced techniques |
-
-## Critical Conventions for AI Assistants
-
-### Unit Notation
-
-**ALWAYS use `u` for micro (1e-6). NEVER use μ in netlists or code.**
-
-```spice
-C1 out 0 1u        ; 1 microfarad (CORRECT)
-C1 out 0 1μF       ; WRONG - will cause errors
-.tran 100u         ; 100 microseconds
-```
+## Critical Conventions
 
 ### Engineering Multipliers
 
-- `K` = 1e3 (kilo)
-- `Meg` = 1e6 (mega) — **NOT `M`**
-- `m` = 1e-3 (milli)
-- `u` = 1e-6 (micro)
-- `n` = 1e-9 (nano)
-- `p` = 1e-12 (pico)
+| Suffix | Value | Suffix | Value |
+|--------|-------|--------|-------|
+| T | 1e12 | m | 1e-3 |
+| G | 1e9 | u | 1e-6 |
+| Meg | 1e6 | n | 1e-9 |
+| K | 1e3 | p | 1e-12 |
+| mil | 25.4e-6 | f | 1e-15 |
 
-**Pitfall**: `1M` = 1 milli (1e-3). Use `1Meg` for megaohms.
+**Pitfall**: `1M` = 1 milli (1e-3), NOT 1 mega. Use `1Meg` for megaohms.
+
+**ALWAYS use `u` for micro (1e-6). NEVER use the μ symbol in netlists or code.**
+
+```spice
+C1 out 0 1u        ; 1 microfarad
+R1 in out 2.2K     ; 2.2 kilohms
+.tran 100u          ; 100 microseconds
+```
+
+### Node Naming
+
+- Node `0` is always ground (global circuit common)
+- `GND` is a synonym for `0`
+- Names are case-insensitive
+- Avoid spaces in node names
 
 ### File Paths
 
-Always use complete absolute paths in command line:
-```bash
-ltspice.exe "C:\Projects\MyCircuit\filter.asc"
+Always use complete absolute paths from command line:
 ```
+LTspice.exe "C:\Projects\MyCircuit\filter.asc"
+```
+
+---
+
+## Reference Files
+
+| File | Use When... |
+|------|-------------|
+| [LTSPICE-QUICKSTART.md](LTSPICE-QUICKSTART.md) | Getting started, installation, interface modes, CLI |
+| [SPICE-SYNTAX-REFERENCE.md](SPICE-SYNTAX-REFERENCE.md) | Netlist structure, encoding, multipliers, conventions |
+| [CIRCUIT-ELEMENTS-REFERENCE.md](CIRCUIT-ELEMENTS-REFERENCE.md) | Component syntax (R, L, C, V, I, D, Q, M, sources, switches) |
+| [SIMULATION-COMMANDS-REFERENCE.md](SIMULATION-COMMANDS-REFERENCE.md) | Dot commands (.tran, .ac, .dc, .meas, .step, .options, etc.) |
+| [TROUBLESHOOTING-GUIDE.md](TROUBLESHOOTING-GUIDE.md) | Convergence failures, debugging, simulator options |
+| [SCHEMATIC-REFERENCE.md](SCHEMATIC-REFERENCE.md) | .asc file format, schematic editing, symbols, hierarchy |
+| [WAVEFORM-VIEWER-GUIDE.md](WAVEFORM-VIEWER-GUIDE.md) | Viewing results, probing, arithmetic, FFT, export |
+| [DEVICE-MODELS-GUIDE.md](DEVICE-MODELS-GUIDE.md) | MOSFET/inductor/opamp models, third-party integration |
+| [MEASURE-DATABASE-REFERENCE.md](MEASURE-DATABASE-REFERENCE.md) | .MEAS SQLite database schema, querying results |
+| [FAQ-AND-TIPS.md](FAQ-AND-TIPS.md) | Updates, license, Linux, efficiency, SMPS Bode plots |
+
+---
 
 ## Quick Examples
 
-### RC Low-Pass Filter
+### Basic Transient Simulation
 
 ```spice
 * RC Low-Pass Filter
@@ -87,39 +104,60 @@ R1 in out {Rval}
 .tran 10u
 ```
 
-### AC Analysis with Measurement
+### AC Analysis
 
 ```spice
 V1 in 0 AC 1
 R1 in out 1K
 C1 out 0 100n
 .ac dec 100 1 10Meg
+```
+
+### Measurement
+
+```spice
+.meas TRAN Vmax MAX V(out)
+.meas TRAN Trise TRIG V(out)=0.5 RISE=1 TARG V(out)=4.5 RISE=1
 .meas AC fc WHEN mag(V(out))=mag(V(out))/sqrt(2) FALL=1
 ```
 
-## Updates
+---
 
-Reference files are automatically updated when you update LTspice. Symlinks in your project directories will point to the latest version.
+## Common Tasks
 
-## For AI Assistant Developers
+### Improving Convergence
 
-These markdown files use structured formatting optimized for:
-- Quick lookup of syntax rules
-- Component and command reference tables
-- Common troubleshooting patterns
-- Example code snippets
+See [TROUBLESHOOTING-GUIDE.md](TROUBLESHOOTING-GUIDE.md) — covers debugging convergence failures, circuit fixes, and simulator option adjustments for both DC operating point and transient analysis.
 
-AI assistants should:
-1. Read [CLAUDE.md](CLAUDE.md) first for routing to specific references
-2. Enforce the `u` (not μ) convention strictly
-3. Use absolute paths for file references
-4. Default to provided examples and patterns
+### Add a Third-Party Model
 
-## Resources
+1. Set component Value to match model/subcircuit name
+2. For subcircuits: change Prefix to `X` (Ctrl+right-click)
+3. Add `.include "path/to/model.lib"` directive
+4. See [DEVICE-MODELS-GUIDE.md](DEVICE-MODELS-GUIDE.md)
 
-- LTspice Website: http://www.analog.com/ltspice
-- Forum: https://ez.analog.com/design-tools-and-calculators/ltspice/
+### Measure -3dB Bandwidth
+
+```spice
+.meas AC fc WHEN mag(V(out))=mag(V(out))/sqrt(2) FALL=1
+```
+
+### Efficiency Report
+
+```spice
+.tran 10m steady
+```
+Requires exactly one voltage source (input) and either one current source or Rload (output).
 
 ---
 
-**Note**: These files are symlinked from your LTspice installation. Do not edit them directly; they will be overwritten by updates. For feedback, visit the LTspice forum.
+## File Locations
+
+| Path | Content |
+|------|---------|
+| `%LOCALAPPDATA%\LTspice\` | Program files, standard libraries (DO NOT EDIT) |
+| `%LOCALAPPDATA%\LTspice\examples\` | Example schematics |
+| `%LOCALAPPDATA%\LTspice\lib\cmp\` | Standard component libraries |
+| `Documents\LTspice\` | User files (custom models, symbols, libraries) |
+
+User library files: `user.dio`, `user.bjt`, `user.mos`, `user.jft`, `user.ind`, `user.res`
