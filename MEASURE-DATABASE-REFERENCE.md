@@ -14,14 +14,7 @@ If there are no `.STEP` parameters being swept, the Parameters and Steps tables 
 
 ## Database Schema
 
-The database contains four tables:
-
-| Table | Purpose |
-|-------|---------|
-| Parameters | Lists any `.STEP` items being swept |
-| Steps | Captures the values of each stepped parameter |
-| Measurements | Captures information about each `.MEAS` statement |
-| Results | Lists the measured values for each `.MEAS` at each `.STEP` value |
+The database contains five tables: `schema`, `Parameters`, `Steps`, `Measurements`, and `Results`.
 
 ### Table Relationships
 
@@ -36,6 +29,75 @@ Measurements (1) ──── (many) Results
 - Each parameter has multiple step values (one per sweep point)
 - Each measurement has multiple results (one per step)
 - Results are linked to Steps via the `Step` column
+- Results are linked to Measurements via the `ID` column
+
+### schema
+
+| Column | Type | Description |
+|--------|------|-------------|
+| version | TEXT | Database schema version (e.g., "1.0") |
+
+### Parameters
+
+| Column | Type | Description |
+|--------|------|-------------|
+| Key | INTEGER (PK) | Unique identifier for each stepped parameter |
+| Name | TEXT | The `.step` item name (e.g., "css", "r1") |
+
+### Steps
+
+| Column | Type | Description |
+|--------|------|-------------|
+| Step | INTEGER (PK) | Step number (1-based) |
+| Key | INTEGER (PK) | FK → Parameters.Key |
+| Value | REAL | The parameter value for this step |
+
+### Measurements
+
+| Column | Type | Description |
+|--------|------|-------------|
+| ID | INTEGER (PK) | Unique identifier for each `.MEAS` statement |
+| Name | TEXT | The measurement name from `.meas <name>` |
+| Expression | TEXT | The measurement expression from `.meas <expr>` |
+| Type | INTEGER | Measurement type (see below) |
+| Complex | INTEGER | `0` = real result, `1` = complex result |
+| Format | INTEGER | Complex data representation: `1` = Polar, `2` = Cartesian, `3` = Bode |
+| Digits | INTEGER | Currently not used |
+
+**Measurements.Type values:**
+
+| Type | Meaning | Example |
+|------|---------|---------|
+| 0 | Parameter calculation | `.meas PARAM res PARAM 3*val1/val2` |
+| 1 | Point measurement (FIND) | `.meas TRAN res FIND V(out) AT=5m` |
+| 2 | Range measurement | `.meas TRAN res AVG V(out) TRIG ... TARG ...` |
+| 3 | WHEN measurement (abscissa) | `.meas TRAN res WHEN V(out)=4.8` |
+
+### Results
+
+**IMPORTANT: The Results table does NOT have a `Value` column.** The measured result is stored in different columns depending on the measurement type.
+
+| Column | Type | Description |
+|--------|------|-------------|
+| ID | INTEGER | FK → Measurements.ID |
+| Step | INTEGER | FK → Steps.Step |
+| Re | REAL | Real part of the measured ordinate value (used by FIND, AVG, MAX, MIN, PP, RMS, INTEG, PARAM) |
+| Im | REAL | Imaginary part of the measured ordinate value (non-NULL only when Measurements.Complex = 1) |
+| FROM | REAL | Range measurement abscissa starting point (TRIG value) |
+| TO | REAL | Range measurement abscissa ending point (TARG value) |
+| AT | REAL | Point/WHEN measurement abscissa value — the value on the horizontal axis (e.g., time or frequency) where a condition is met |
+| Success | INTEGER | `0` = measurement failed (condition never met), `1` = measurement succeeded |
+
+### Which Results Column Contains the Answer?
+
+| Measurement type | Result column(s) | Explanation |
+|-----------------|-------------------|-------------|
+| `WHEN V(out)=4.8` (no FIND) | **AT** | Returns the abscissa value (e.g., time) when the condition is met |
+| `FIND V(out) WHEN ...` | **Re** (and **Im** if complex) | Returns the ordinate value at the condition point |
+| `FIND V(out) AT=5m` | **Re** (and **Im** if complex) | Returns the ordinate value at the specified point |
+| `AVG`, `MAX`, `MIN`, `PP`, `RMS`, `INTEG` | **Re** (and **Im** if complex); **FROM** and **TO** for the range | Returns the computed value over the interval |
+| `PARAM expr` | **Re** | Returns the computed parameter expression value |
+| TRIG/TARG (no operation keyword) | **AT** | Returns the abscissa distance between TRIG and TARG |
 
 ---
 
@@ -86,6 +148,45 @@ cursor.execute("""
 
 for row in cursor.fetchall():
     print(row)
+
+conn.close()
+```
+
+### Extracting Values by Measurement Type
+
+The correct Results column to use depends on the `.MEAS` type. Check the
+Measurements table to determine which column holds the result.
+
+```python
+import sqlite3
+
+conn = sqlite3.connect("my_circuit.db")
+cursor = conn.cursor()
+
+# 1. Check what measurements exist and their types
+cursor.execute("SELECT ID, Name, Type FROM Measurements")
+for m in cursor.fetchall():
+    print(f"  ID={m[0]}, Name={m[1]}, Type={m[2]}")
+    # Type 0 = PARAM, 1 = FIND, 2 = Range, 3 = WHEN
+
+# 2. For a WHEN measurement (Type=3), the result is in the AT column:
+#    .meas TRAN Trise WHEN V(OUT)=4.8
+cursor.execute("""
+    SELECT Steps.Value AS step_val, Results.AT AS meas_result
+    FROM Steps
+    INNER JOIN Results ON Results.Step = Steps.Step
+    WHERE Results.ID = 1 AND Results.Success = 1
+""")
+
+# 3. For a FIND or range measurement (Type=1 or 2), use Re (and Im if complex):
+#    .meas TRAN res FIND V(out) AT=5m
+#    .meas TRAN res AVG V(out)
+cursor.execute("""
+    SELECT Steps.Value AS step_val, Results.Re AS meas_result
+    FROM Steps
+    INNER JOIN Results ON Results.Step = Steps.Step
+    WHERE Results.ID = 1 AND Results.Success = 1
+""")
 
 conn.close()
 ```
