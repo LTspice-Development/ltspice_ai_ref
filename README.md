@@ -41,7 +41,9 @@ The links always point to the latest version and are updated automatically with 
 
 **Pitfall**: `1M` = 1 milli (1e-3), NOT 1 mega. Use `1Meg` for megaohms.
 
-**ALWAYS use `u` for micro (1e-6). NEVER use the μ symbol in netlists or code.**
+**ALWAYS use `u` for micro (1e-6). NEVER use the μ symbol in schematics, netlists or code.**
+
+**Do NOT edit .asc files with text-based tools that assume UTF-8 encoding. .asc files are Windows-1252 encoded. Use a Python script with encoding='latin-1' to make modifications, or re-copy the original and apply changes programmatically. See SCHEMATIC-REFERENCE.md for details.**
 
 ```spice
 C1 out 0 1u        ; 1 microfarad
