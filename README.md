@@ -21,9 +21,9 @@ From your project directory, run one of the following:
 "C:\Program Files\ADI\LTspice\LTspice.exe" -init_ai_ref
 ```
 
-This creates symlinks in the current directory pointing to the reference files in `%LOCALAPPDATA%\LTspice\reference`. AI assistants will automatically use these files for LTspice guidance.
+This creates hard links in the current directory pointing to the reference files in `%LOCALAPPDATA%\LTspice\reference`. AI assistants will automatically use these files for LTspice guidance.
 
-Symlinks always point to the latest version and are updated automatically with LTspice. Do not edit the referenced files directly.
+The links always point to the latest version and are updated automatically with LTspice. Do not edit the referenced files directly.
 
 ---
 
