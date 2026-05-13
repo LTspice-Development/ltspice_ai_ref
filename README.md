@@ -13,17 +13,19 @@ LTspice is a general-purpose SPICE simulator with built-in schematic capture and
 
 From your project directory, run one of the following:
 
+**Per-user install:**
 ```bat
-:: Per-user install
 "%LOCALAPPDATA%\Programs\ADI\LTspice\LTspice.exe" -init_ai_ref
+```
 
-:: System-wide install
+**System-wide install:**
+```bat
 "C:\Program Files\ADI\LTspice\LTspice.exe" -init_ai_ref
 ```
 
-This creates hard links in the current directory pointing to the reference files in `%LOCALAPPDATA%\LTspice\reference`. AI assistants will automatically use these files for LTspice guidance.
+This creates copies in the current directory from the reference files in `%LOCALAPPDATA%\LTspice\reference`. AI assistants will automatically use these files for LTspice guidance.
 
-The links always point to the latest version and are updated automatically with LTspice. Do not edit the referenced files directly.
+Do not edit the referenced files. The files may be updated by running the -init_ai_ref command again.
 
 ---
 
@@ -43,7 +45,7 @@ The links always point to the latest version and are updated automatically with 
 
 **ALWAYS use `u` for micro (1e-6). NEVER use the μ symbol in schematics, netlists or code.**
 
-**Do NOT edit .asc files with text-based tools that assume UTF-8 encoding. .asc files are Windows-1252 encoded. Use a Python script with encoding='latin-1' to make modifications, or re-copy the original and apply changes programmatically. See SCHEMATIC-REFERENCE.md for details.**
+**Do NOT edit .asc files with `replace_string_in_file`, `multi_replace_string_in_file`, `create_file`, or any other text tool that assumes UTF-8 encoding. These tools WILL corrupt µ (0xB5) and other Windows-1252 characters. .asc files are Windows-1252 encoded. Use a Python script with `encoding='latin-1'` to make modifications, or re-copy the original and apply changes programmatically. See SCHEMATIC-REFERENCE.md for details.**
 
 ```spice
 C1 out 0 1u        ; 1 microfarad
@@ -118,11 +120,14 @@ C1 out 0 100n
 ### Measurement
 
 ```spice
+; Transient measurements
 .meas TRAN Vmax MAX V(out)
 .meas TRAN Trise TRIG V(out)=0.5 RISE=1 TARG V(out)=4.5 RISE=1
-.meas AC fc WHEN mag(V(out))=mag(V(out))/sqrt(2) FALL=1
-```
 
+; AC: measure -3dB bandwidth
+.meas AC Vmax MAX mag(V(out))
+.meas AC fc WHEN mag(V(out))=Vmax/sqrt(2) FALL=1
+```
 ---
 
 ## Common Tasks
@@ -138,11 +143,6 @@ See [TROUBLESHOOTING-GUIDE.md](TROUBLESHOOTING-GUIDE.md) — covers debugging co
 3. Add `.include "path/to/model.lib"` directive
 4. See [DEVICE-MODELS-GUIDE.md](DEVICE-MODELS-GUIDE.md)
 
-### Measure -3dB Bandwidth
-
-```spice
-.meas AC fc WHEN mag(V(out))=mag(V(out))/sqrt(2) FALL=1
-```
 
 ### Efficiency Report
 

@@ -62,6 +62,8 @@ The remainder consists of element declarations using these keywords:
 - If your editor or tool only supports UTF-8, replace `µ` with the letter `u` in component values (e.g., `2.2u` instead of `2.2µ`). LTspice treats `u` as the micro multiplier in netlist values.
 - Other non-ASCII bytes that may appear: `0xB0` (°) in temperature values, `0xB2` (²) in annotations.
 
+**Do NOT edit .asc files with `replace_string_in_file`, `multi_replace_string_in_file`, `create_file`, or any other text tool that assumes UTF-8 encoding. These tools WILL corrupt µ (0xB5) and other Windows-1252 characters.** Use a Python script with `encoding='latin-1'` to make modifications, or re-copy the original and apply changes programmatically.
+
 **Safe editing approach:** When modifying `.asc` files, read the file as a byte array, perform targeted byte-level replacements only in the lines being changed (using ASCII for new content), and write the byte array back unchanged otherwise. Never pass the entire file through a UTF-8 encode/decode round-trip.
 
 ---
