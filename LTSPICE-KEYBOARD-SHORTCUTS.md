@@ -38,6 +38,7 @@ Complete keyboard shortcuts for Windows. Based on the official LTspice keyboard 
 | Del | Delete |
 | Backspace | Delete |
 | Ctrl+C | Copy/duplicate* |
+| Ctrl+V | Paste |
 | M | Move* (select components to move) |
 | S | Stretch* (select anchor points to move) |
 | Ctrl+R | Rotate |
@@ -72,8 +73,7 @@ Mouse actions are on label of waveform trace.
 | B | Add pane below |
 | U | Move active pane up |
 | D | Move active pane down |
-| Ctrl+S | Select steps |
-| | Recenter |
+| Shift+S | Select steps |
 
 *Click in waveform pane to apply keyboard functions to active frame.*
 

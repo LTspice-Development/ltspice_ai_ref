@@ -74,6 +74,8 @@ LTspice.exe "C:\Projects\MyCircuit\filter.asc"
 | File | Use When... |
 |------|-------------|
 | [LTSPICE-QUICKSTART.md](LTSPICE-QUICKSTART.md) | Getting started, installation, interface modes, CLI |
+| [LTSPICE-KEYBOARD-SHORTCUTS.md](LTSPICE-KEYBOARD-SHORTCUTS.md) | Keyboard shortcuts for all LTspice operations |
+| [LTSPICE-MENU-REFERENCE.md](LTSPICE-MENU-REFERENCE.md) | Complete menu hierarchy, access keys, context menus |
 | [SPICE-SYNTAX-REFERENCE.md](SPICE-SYNTAX-REFERENCE.md) | Netlist structure, encoding, multipliers, conventions |
 | [CIRCUIT-ELEMENTS-REFERENCE.md](CIRCUIT-ELEMENTS-REFERENCE.md) | Component syntax (R, L, C, V, I, D, Q, M, sources, switches) |
 | [SIMULATION-COMMANDS-REFERENCE.md](SIMULATION-COMMANDS-REFERENCE.md) | Dot commands (.tran, .ac, .dc, .meas, .step, .options, etc.) |

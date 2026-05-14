@@ -8,7 +8,7 @@ Complete hierarchical listing of all menu options and keyboard shortcuts.
 
 ## Menu Access Keys
 
-All menus can be accessed via Alt+[letter]:
+Menus can be accessed via Alt+[letter]:
 - **Alt+F** = File
 - **Alt+E** = Edit  
 - **Alt-I** = Hierarchy
@@ -28,9 +28,9 @@ Within each menu, underlined letters (mnemonics) can be pressed directly without
 
 ## File Menu (Alt+F)
 
-- **New Schematic** (N, Ctrl+N) — Create new blank schematic
+- **New Schematic** (Ctrl+N) — Create new blank schematic
 - **New Symbol** — Create new component symbol
-- **Open** (O, Ctrl+O) — Open schematic, netlist, or waveform file
+- **Open** (Ctrl+O) — Open schematic, netlist, or waveform file
 - **Open Examples...** — Browse built-in example circuits
   - Educational/ — Analysis examples
   - Applications/ — ADI product circuits
@@ -38,10 +38,10 @@ Within each menu, underlined letters (mnemonics) can be pressed directly without
   - Capacitor
   - Inductor
   - Resistor
-- **Save** (S, Ctrl+S) — Save current file
-- **Save As...** (A, Ctrl+Shift+S) — Save with new filename
-- **Close** (C, Ctrl+W) — Close current file
-- **Print** (P, Ctrl+P)
+- **Save** (Ctrl+S) — Save current file
+- **Save As...** (Ctrl+Shift+S) — Save with new filename
+- **Close** (Ctrl+W) — Close current file
+- **Print** (Ctrl+P)
 - **Print Preview** (V)
 - **Print Monochrome** (M) — Toggle: Print schematics in black and white
 - **Recent Files** (submenu)
@@ -50,10 +50,10 @@ Within each menu, underlined letters (mnemonics) can be pressed directly without
 
 ## Edit Menu - Available when .ASC file is active
 
-- **Undo** (O, Ctrl+Z) — Reverse last action
+- **Undo** (Ctrl+Z) — Reverse last action
 - **Redo** (Ctrl+Shift+Z) — Reapply last undone action
-- **Text** (T, T) - Add text comment to schematic
-- **SPICE Directive** (S, .) - Add SPICE directive to schematic
+- **Text** (T) - Add text comment to schematic
+- **SPICE Directive** (.) - Add SPICE directive to schematic
 - **Configure SPICE Analysis** (A) - Opens Configure Analysis Dialog
 - **Resistor** (R) - Add resistor to schematic
 - **Capacitor** (C) - Add capacitor to schematic
@@ -66,7 +66,7 @@ Within each menu, underlined letters (mnemonics) can be pressed directly without
 - **Label Net** (N) - Add Label to a Net
 - **Place GND** (G) - Place Ground Component
 - **Place Bus Tap** (B) - Place bus tap
-- **Delete** (Backspace or Delete)
+- **Delete** (Backspace or Delete or Ctrl+X)
 - **Duplicate** (Ctrl+C) — Clone selected component
 - **Move** (M) — Enter move mode
 - **Stretch** (S) — Move with connected wires
@@ -82,7 +82,7 @@ Within each menu, underlined letters (mnemonics) can be pressed directly without
 ## View Menu - When Schematic Window is active
 
 - **Zoom Area** (Z) — Drag to define zoom region
-- **Zoom Back** (Shift+Z) — Return to previous zoom level
+- **Zoom Back** (Shift+Z) — Zoom out
 - **Zoom to Fit** (Space) — Fit entire schematic in window
 - **Recenter** — Center view on schematic origin
 - **Show Grid** (Ctrl+G) — Toggle grid visibility
@@ -104,7 +104,7 @@ Within each menu, underlined letters (mnemonics) can be pressed directly without
 ## View Menu - When Waveform Viewer Window is active
 
 - **Zoom Area** (Z) — Drag to define zoom region
-- **Zoom Back** (Shift+Z) — Return to previous zoom level
+- **Zoom Back** (Shift+Z) — Zoom out
 - **Zoom to Fit** (Space) — Fit entire waveform in window
 - **Recenter** — Center view on waveform
 - **SPICE Output Log** (Ctrl+L) — Show simulation messages and errors
@@ -123,11 +123,13 @@ Within each menu, underlined letters (mnemonics) can be pressed directly without
   - **Mark Start** — Begin efficiency calculation region
   - **Mark End** — End efficiency calculation region
 - **Settings**
-- **Configure Analysis** (C, A) - Opens Configure Analysis Dialog
+- **Configure Analysis** (A) - Opens Configure Analysis Dialog
 
 
 ## Tools Menu
 
+- **Copy bitmap to Clipboard** — Copy schematic or waveform as bitmap image
+- **Write image to .emf file** — Export as Enhanced Metafile
 - **Settings** — Open comprehensive settings dialog
   - **General** tab
   - **Schematic** tab
@@ -135,83 +137,87 @@ Within each menu, underlined letters (mnemonics) can be pressed directly without
   - **Search Paths** tab
   - **Hacks!** tab
   - **Save Defaults** tab
-- **Update Components** — Download latest component libraries
-- **[ ] Sync Release**
-- **Color Preferences** — Customize UI colors
+- **Color Preferences** — Customize UI colors dialog
   - Schematic colors
   - Waveform colors
   - Netlist editor colors
+- **Update components** — Download latest component libraries
 - **Export Netlist** — Generate netlist for PCB layout
-- **Write to .wmf file** — Export waveform as metafile (waveform viewer)
-- **[ ] Control Panel**
-- **[ ] Other options...**
 
 
 ## Plot Settings Menu (Waveform Viewer)
 
 - **Visible Traces** — Select which waveforms to display
-- **Edit Plot Defs File** — Modify plot definitions
-- **Save Plot Settings** — Store current plot configuration
-- **Open Plot Settings** — Load saved plot configuration
-- **[ ] Add Plot Pane**
-- **[ ] Tile Horizontal**
-- **[ ] Tile Vertical**
-- **[ ] Other options...**
+- **Add trace** (A) — Add new waveform to plot
+- **Delete Traces** (Backspace or Del) — Remove selected waveforms
+- **Select Steps** (Shift+S) — Choose which parameter steps to display
+- **Place Cursor on Active Trace** (C) — Position cursor on selected waveform
+- **Clear All Cursors** (Shift+C or Esc) — Remove all measurement cursors
+- **Redraw** (F5) — Refresh waveform display
+- **Add Plot Pane Above Active Pane** (P) — Insert new plot pane above
+- **Add Plot Pane Below Active Pane** (B) — Insert new plot pane below
+- **Move Active Pane Up** (U) — Reorder plot panes upward
+- **Move Active Pane Down** (D) — Reorder plot panes downward
+- **Delete Active Pane** — Remove current plot pane
+- **Sync. Horiz. Axes** (checkmark) — Synchronize time/frequency axis across panes
+- **Grid** (Ctrl+G) (checkmark) — Toggle grid visibility
+- **Reset Colors** — Restore default trace colors
+- **Mark Data Points** — Show simulation data points on waveforms
+- **Eye Diagram** (submenu) — Eye diagram display options
+- **Undo** (Ctrl+Z) — Reverse last plot change
+- **Redo** (Ctrl+Shift+Z) — Reapply last undone change
+- **Autorange Y-axis** (Ctrl+Y) — Auto-scale vertical axis
+- **Manual Limits** — Set custom axis ranges
+- **Autoranging** (checkmark) — Enable/disable automatic axis scaling
+- **Notes & Annotations** (submenu) — Add text and markup to plots
+- **Save Plot Settings As...** — Store current plot configuration
+- **Open Plot Settings File...** (O) — Load saved plot configuration
+- **Reload Plot Settings** (Ctrl-Space)
+- **Edit Plot Defs File**
+
 
 
 ## Window Menu - Available when any window is open
 
-- **[ ] Cascade** — Arrange windows in cascade
-- **[ ] Tile** — Arrange windows in grid
-- **[ ] Close All**
-- **[ ] List of open windows...**
+- **Tile Horizontally** — Arrange windows side-by-side horizontally
+- **Tile Vertically** — Arrange windows stacked vertically
+- **Cascade** — Arrange windows in overlapping cascade
+- **Close Everything** — Close all open windows
+- **Arrange Icons** — Organize minimized window icons
+- **[Numbered list of open windows]** — Switch to specific window (checkmark indicates active window)
 
 
 ## Help Menu
 
-- **Help Topics** (F1) — Open help documentation
+- **LTspice Help** (F1) — Open help documentation
 - **Keyboard Shortcut Cheat Sheet** — Always-on-top shortcut reference
   - **Edit Keyboard Shortcuts** button — Customize shortcuts
 - **Open Examples...** — Browse example circuits
-- **Check for LTspice updates** — Download latest program version
-- **Show LTspice Change Log** — Program version history
+- **Get Support on EngineerZone** — Access Analog Devices community forum
+- **Go to Analog.com** — Open Analog Devices website
+- **Go to myAnalog** — Access myAnalog portal
 - **Show Model Change Log** — Component/model update history
-- **[ ] About LTspice** — Version and license information
+- **Show LTspice Change Log** — Program version history
+- **Check for LTspice updates...** — Download latest program version
+- **About LTspice** — Version and license information
 
-
-## Context Menu Actions (Right-Click)
-
-### On Schematic Component Body
-- **Assisted Mode**: Component-specific editor dialog
-- **Expert Mode**: Direct attribute editing (click on visible text)
-- **Super Expert Mode** (Ctrl+right-click): Full attribute editor with visibility
-
-### On Schematic Wire/Node
-- **[ ] Add net label**
-- **[ ] Highlight net**
-- **[ ] Other options...**
-
-### On Waveform Trace Label
-- **Edit expression** — Modify waveform arithmetic
-- **Delete trace**
-- **[ ] Other options...**
-
-### On Waveform Plot Area
-- **Add pane above**
-- **Add pane below**
-- **Move pane**
-- **[ ] Other options...**
 
 
 ## Symbol Editor Menu (When .asy file is open)
 
-- **[ ] File → ...**
-- **Edit** (submenu)
-  - **Add Pin/Port** — Create symbol pin
-  - **Attributes → Edit Attributes** — Set symbol properties
-  - **Attributes → Attribute Window** — Visibility settings
-- **[ ] Draw → ...**
-- **[ ] Other menus...**
+### Edit Menu
+- **Undo** (Ctrl+Z) — Reverse last action
+- **Redo** (Ctrl+Shift+Z) — Reapply last undone action
+- **Attributes** (submenu) — Symbol attribute settings
+  - **Edit Attributes** — Set symbol properties
+  - **Attribute Window** — Visibility settings
+- **Add Pin/Port** (P) — Create symbol pin
+- **Move** (M) — Move selected element
+- **Stretch** (S) — Stretch/resize element
+- **Rotate** (Ctrl+R) — Rotate selected element
+- **Mirror** (Ctrl+E) — Mirror selected element
+- **Delete** (Backspace or Del) — Delete selected element
+- **Duplicate** (Ctrl+C) — Clone selected element
 
 
 ## Notes
