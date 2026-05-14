@@ -42,7 +42,7 @@ Measurements (1) ──── (many) Results
 | Column | Type | Description |
 |--------|------|-------------|
 | Key | INTEGER (PK) | Unique identifier for each stepped parameter |
-| Name | TEXT | The `.step` item name (e.g., "css", "r1") |
+| Name | TEXT | The `.step` item name (e.g., "css", "r1"). **Stored in lowercase (casefolded).** |
 
 ### Steps
 
@@ -57,7 +57,7 @@ Measurements (1) ──── (many) Results
 | Column | Type | Description |
 |--------|------|-------------|
 | ID | INTEGER (PK) | Unique identifier for each `.MEAS` statement |
-| Name | TEXT | The measurement name from `.meas <name>` |
+| Name | TEXT | The measurement name from `.meas <name>`. **Stored in lowercase (casefolded).** |
 | Expression | TEXT | The measurement expression from `.meas <expr>` |
 | Type | INTEGER | Measurement type (see below) |
 | Complex | INTEGER | `0` = real result, `1` = complex result |
@@ -97,7 +97,7 @@ Measurements (1) ──── (many) Results
 | `FIND V(out) AT=5m` | **Re** (and **Im** if complex) | Returns the ordinate value at the specified point |
 | `AVG`, `MAX`, `MIN`, `PP`, `RMS`, `INTEG` | **Re** (and **Im** if complex); **FROM** and **TO** for the range | Returns the computed value over the interval |
 | `PARAM expr` | **Re** | Returns the computed parameter expression value |
-| TRIG/TARG (no operation keyword) | **AT** | Returns the abscissa distance between TRIG and TARG |
+| TRIG/TARG (no operation keyword) | **Re** | Returns the abscissa distance between TRIG and TARG |
 
 ---
 
