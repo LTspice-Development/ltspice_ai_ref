@@ -165,3 +165,15 @@ Requires exactly one voltage source (input) and either one current source or Rlo
 | `Documents\LTspice\` | User files (custom models, symbols, libraries) |
 
 User library files: `user.dio`, `user.bjt`, `user.mos`, `user.jft`, `user.ind`, `user.res`
+
+---
+
+## Instructions for AI Assistants
+**CRITICAL for AI assistants:**
+- When answering LTspice questions, cite specific documentation files
+- For keyboard shortcuts, menus, and syntax: quote directly from the reference files
+- For keyboard shortcuts, read from LTSPICE-KEYBOARD-SHORTCUTS.md
+- If information conflicts between training data and local docs, trust local docs
+- When uncertain, say so and check the documentation before answering
+ 
+ 
